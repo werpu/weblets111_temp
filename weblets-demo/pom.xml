@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.java.dev.weblets</groupId>
+        <artifactId>weblets</artifactId>
+        <version>1.1.1-BETA-2</version>
+    </parent>
+
+
+    <groupId>net.java.dev.weblets</groupId>
+    <artifactId>weblets-demo</artifactId>
+    <packaging>war</packaging>
+
+    <name>Weblets Demo</name>
+    <version>1.1.1-BETA-2</version>
+    <description>Weblets Demo</description>
+    <url>http://weblets.dev.java.net</url>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>net.java.dev.weblets</groupId>
+            <artifactId>weblets-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.weblets</groupId>
+            <artifactId>weblets-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.weblets</groupId>
+            <artifactId>weblets-exampleweblet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>myfaces</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-api</artifactId>
+                    <version>2.0.0</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>javax.servlet</groupId>
+                            <artifactId>jsp-api</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core</groupId>
+                    <artifactId>myfaces-impl</artifactId>
+                    <version>2.0.0</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>javax.servlet</groupId>
+                            <artifactId>jsp-api</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>mojarra</id>
+            <dependencies>
+                <dependency>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                    <version>2.0.2-FCS</version>
+                </dependency>
+                <dependency>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-impl</artifactId>
+                    <version>2.0.2-FCS</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>keytool-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <id>clean</id>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <id>genkey</id>
+                        <goals>
+                            <goal>genkey</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keystore>${project.build.directory}/jetty-ssl.keystore</keystore>
+                    <dname>cn=booga</dname>
+                    <keypass>jetty6</keypass>
+                    <storepass>jetty6</storepass>
+                    <alias>jetty6</alias>
+                    <keyalg>RSA</keyalg>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    <properties>
+        <netbeans.hint.deploy.server>gfv3</netbeans.hint.deploy.server>
+    </properties>
+
+</project>
